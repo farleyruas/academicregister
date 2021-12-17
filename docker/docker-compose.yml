@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    postgresql:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: postgres_academic
+        restart: always
+        environment:
+            POSTGRES_DB: "academic_db"
+            POSTGRES_USER: "admin_academic"
+            POSTGRES_PASSWORD: "admin_academic"
+            PGDATA: /var/lib/postgresql/data/pgdata
+        ports:
+            - 15433:5432        
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            postgres_network:
+                aliases:
+                    - postgres_host        
+volumes:
+    pgdata: {}
+networks:
+    postgres_network:
+        name: postgres_net
+        driver: bridge
