@@ -2,6 +2,8 @@ package com.academicregister.domain.enrollment;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Repository
@@ -12,15 +14,12 @@ public class EnrollmentRepositoryImpl implements IEnrollmentRepository{
     public EnrollmentRepositoryImpl(JdbcTemplate template){
         this.template = template;
     }
+
+    @Transactional
     @Override
     public void save(Enrollment enrollment) {
         template.update("INSERT INTO ENROLLMENTS VALUES (?, ?, ?)",
                 enrollment.getId(), enrollment.getStudentId(), enrollment.getCourseId());
-    }
-
-    @Override
-    public List<Enrollment> findAll() {
-        return template.query("SELECT * FROM ENROLLMENTS", new EnrollmentMapper());
     }
 
     @Override
@@ -38,7 +37,13 @@ public class EnrollmentRepositoryImpl implements IEnrollmentRepository{
     }
 
     @Override
-    public void deleteStudentById(String studentId) {
-        template.update("DELETE FROM ENROLLMENTS WHERE STUDENT = ?", studentId);
+    public Enrollment findByCourseAndStudent(String courseId, String studentId) {
+        String query = "SELECT * FROM ENROLLMENTS WHERE COURSE = ? AND STUDENT = ?";
+        var result = template.query(query, new EnrollmentMapper(), courseId, studentId);
+        if (!result.isEmpty()) {
+            return result.get(0);
+        }
+        return null;
     }
+
 }

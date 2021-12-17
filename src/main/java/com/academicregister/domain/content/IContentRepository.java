@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IContentRepository {
     void save(Content content);
-    List<Content> getContentsByCourse(String courseId);
+    Content findByCourseAndSubject(String courseId, String subjectrId);
 }

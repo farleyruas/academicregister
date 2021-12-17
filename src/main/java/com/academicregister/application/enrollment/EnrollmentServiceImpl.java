@@ -1,12 +1,16 @@
 package com.academicregister.application.enrollment;
 
+import com.academicregister.domain.course.Course;
 import com.academicregister.domain.course.ICourseRepository;
 import com.academicregister.domain.enrollment.Enrollment;
 import com.academicregister.domain.enrollment.IEnrollmentRepository;
 import com.academicregister.domain.student.IStudentRepository;
+import com.academicregister.domain.student.Student;
 import com.academicregister.shared.exception.course.CourseNotFoundException;
+import com.academicregister.shared.exception.enrollment.EnrollmentAlreadyExistsException;
 import com.academicregister.shared.exception.student.StudentNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +30,6 @@ public class EnrollmentServiceImpl implements IEnrollmentService{
     }
 
     @Override
-    public List<Enrollment> getEnrollments() {
-        return null;
-    }
-
-    @Override
     public List<Enrollment> getEnrollmentsByStudent() {
         return null;
     }
@@ -42,28 +41,27 @@ public class EnrollmentServiceImpl implements IEnrollmentService{
 
     @Override
     public String createEnrollment(Enrollment enrollment) {
-        var optionalStudent = studentRepository.findById(enrollment.getStudentId());
-        var optionalCourse = courseRepository.findById(enrollment.getCourseId());
 
-        if (!optionalStudent.isPresent()) {
+        Option<Enrollment> opEnrollment = Option.of(enrollmentRepository.findByCourseAndStudent(
+                enrollment.getCourseId(), enrollment.getStudentId()));
+
+        opEnrollment.exists( rs -> {
+            throw new EnrollmentAlreadyExistsException(enrollment.getCourseId(), enrollment.getStudentId());
+        });
+
+        Try<Student> rsStudent = Try.of(() -> studentRepository.findById(enrollment.getStudentId()));
+        rsStudent.getOrElseThrow(throwable -> {
             throw new StudentNotFoundException(enrollment.getStudentId());
-        }
+        });
 
-        if (!optionalCourse.isPresent()) {
+        Try<Course> rsCourse = Try.of(() -> courseRepository.findById(enrollment.getCourseId()));
+        rsCourse.getOrElseThrow(throwable -> {
             throw new CourseNotFoundException(enrollment.getCourseId());
-        }
+        });
 
         enrollmentRepository.save(enrollment);
         return enrollment.getId();
     }
 
-    @Override
-    public void deleteEnrollmentByStudent(String studentId) {
 
-    }
-
-    @Override
-    public void updateEnrollment(Enrollment enrollment) {
-
-    }
 }

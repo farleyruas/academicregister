@@ -4,7 +4,6 @@ import com.academicregister.application.student.IStudentService;
 import com.academicregister.domain.student.Student;
 import com.academicregister.infraestucture.student.create.StudentCreateRequest;
 import com.academicregister.infraestucture.student.create.StudentCreateResponse;
-import com.academicregister.infraestucture.student.update.StudentUpdateRequest;
 import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

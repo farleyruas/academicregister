@@ -6,6 +6,5 @@ import java.util.Optional;
 public interface ICourseRepository {
     void save(Course course);
     List<Course> findAll();
-    Optional<Course> findById(String id);
-    void deleteById(String id);
+    Course findById(String id);
 }
