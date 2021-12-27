@@ -7,6 +7,8 @@ import com.academicregister.shared.exception.student.StudentIdAlreadyExistsExcep
 import com.academicregister.shared.exception.student.StudentEmailAlreadyExistsException;
 import com.academicregister.shared.exception.student.StudentNotFoundException;
 import com.academicregister.shared.exception.subject.SubjectAlreadyExistsException;
+import com.academicregister.shared.exception.user.NotValidLoginException;
+import com.academicregister.shared.exception.user.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,7 +33,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler({StudentNotFoundException.class, CourseNotFoundException.class})
+    @ExceptionHandler({StudentNotFoundException.class,
+            CourseNotFoundException.class,
+            NotValidLoginException.class,
+            UserAlreadyExistsException.class})
     public ResponseEntity<ErrorResponse> handleNotFound(Exception ex, WebRequest request) {
 
         ErrorResponse errors = new ErrorResponse();

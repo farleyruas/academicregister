@@ -1,5 +1,6 @@
-package com.academicregister.domain.subject;
+package com.academicregister.domain.user;
 
+import com.academicregister.domain.rol.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -15,12 +17,12 @@ import javax.persistence.Id;
 @Setter
 @Getter
 @EqualsAndHashCode
-@ToString
 @Builder
+@ToString
 @Entity
-public class Subject {
-    private @Id String id;
-    private String title;
-
+public class User {
+    @Id
+    private String id;
+    private String username;
+    private String password;
 }
-

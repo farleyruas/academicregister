@@ -7,5 +7,5 @@ import java.util.List;
 public interface IEnrollmentService {
     List<Enrollment> getEnrollmentsByStudent();
     List<Enrollment> getEnrollmentsByCourse();
-    String createEnrollment(Enrollment enrollment);
+    Enrollment createEnrollment(Enrollment enrollment);
 }

@@ -38,7 +38,7 @@ public class EnrollmentController {
         var enrollment = modelMapper.map(enrollmentCreateRequest, Enrollment.class);
         var id = enrollment.getStudentId().concat(enrollment.getCourseId());
         enrollment.setId(id);
-        String enrollmentCreatedId = service.createEnrollment(enrollment);
+        String enrollmentCreatedId = service.createEnrollment(enrollment).getCourseId();
         return new ResponseEntity<>(new EnrollmentCreateResponse(enrollmentCreatedId), HttpStatus.CREATED);
     }
 }

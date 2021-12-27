@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class SubjectMapper implements RowMapper<Subject> {
     public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
-        var subject = new Subject();
-        subject.setId(rs.getString("id"));
-        subject.setTitle(rs.getString("title"));
-        return subject;
+        return Subject.builder()
+            .id(rs.getString("id"))
+            .title(rs.getString("title"))
+            .build();
     }
 }

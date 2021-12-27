@@ -26,14 +26,14 @@ public class StudentRepositoryImpl implements IStudentRepository {
     }
 
     public Student findById(String id){
-        String query = "SELECT * FROM STUDENTS WHERE ID = ?";
+        var query = "SELECT * FROM STUDENTS WHERE ID = ?";
         var result = template.query(query, new StudentMapper(), id);
         return result.get(0);
     }
 
     @Override
     public Student findByEmail(String email) {
-        String query = "SELECT * FROM STUDENTS WHERE EMAIL = ?";
+        var query = "SELECT * FROM STUDENTS WHERE EMAIL = ?";
         var result = template.query(query, new StudentMapper(), email);
         return result.get(0);
     }

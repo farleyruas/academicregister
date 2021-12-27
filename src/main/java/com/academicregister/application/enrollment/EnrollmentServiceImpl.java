@@ -40,7 +40,7 @@ public class EnrollmentServiceImpl implements IEnrollmentService{
     }
 
     @Override
-    public String createEnrollment(Enrollment enrollment) {
+    public Enrollment createEnrollment(Enrollment enrollment) {
 
         Option<Enrollment> opEnrollment = Option.of(enrollmentRepository.findByCourseAndStudent(
                 enrollment.getCourseId(), enrollment.getStudentId()));
@@ -60,7 +60,7 @@ public class EnrollmentServiceImpl implements IEnrollmentService{
         });
 
         enrollmentRepository.save(enrollment);
-        return enrollment.getId();
+        return enrollment;
     }
 
 

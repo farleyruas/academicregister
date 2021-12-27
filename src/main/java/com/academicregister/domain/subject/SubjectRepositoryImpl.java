@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SubjectRepositoryImpl implements ISubjectRepository {
 
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
 
     public SubjectRepositoryImpl(JdbcTemplate template){
         this.template = template;

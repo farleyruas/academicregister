@@ -1,4 +1,4 @@
-package com.academicregister.domain.subject;
+package com.academicregister.domain.rol;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -18,9 +19,8 @@ import javax.persistence.Id;
 @ToString
 @Builder
 @Entity
-public class Subject {
-    private @Id String id;
-    private String title;
-
+public class Rol {
+    @Id
+    private String id;
+    private String name;
 }
-
