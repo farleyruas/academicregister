@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
-@ApiModel(value = "StudentCreateRequest")
+@ApiModel(value = "SubjectCreateRequest")
 public class SubjectCreateRequest {
 
     private String title;

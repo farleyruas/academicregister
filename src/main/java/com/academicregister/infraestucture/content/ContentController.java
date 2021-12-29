@@ -28,7 +28,7 @@ public class ContentController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/contents")
+    @PostMapping("/content")
     public ResponseEntity<ContentCreateResponse> createContent(
             @ApiParam(value = "Content to create", required = true)
             @RequestBody ContentCreateRequest request) {

@@ -5,11 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentMapper implements RowMapper<Student>{
+
     public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Student student = new Student();
-        student.setId(rs.getString("id"));
-        student.setName(rs.getString("name"));
-        student.setLastName(rs.getString("last_name"));
-        return student;
+        return Student.builder()
+                .id(rs.getString("id"))
+                .name(rs.getString("name"))
+                .lastName(rs.getString("last_name"))
+                .build();
     }
 }

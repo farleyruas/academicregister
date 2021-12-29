@@ -31,7 +31,7 @@ public class EnrollmentController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/enrollments")
+    @PostMapping("/enrollment")
     public ResponseEntity<EnrollmentCreateResponse> createEnrollment(
             @ApiParam(value = "Enrollment to Create", required = true)
             @RequestBody EnrollmentCreateRequest enrollmentCreateRequest) {

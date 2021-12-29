@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public class StudentRepositoryImpl implements IStudentRepository {
 
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
 
     public StudentRepositoryImpl(JdbcTemplate template){
         this.template = template;

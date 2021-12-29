@@ -30,7 +30,7 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @PostMapping("/subjects")
+    @PostMapping("/subject")
     public ResponseEntity<SubjectCreateResponse> createSubject(
             @ApiParam(value = "Subject to create", required = true)
             @RequestBody SubjectCreateRequest request) {

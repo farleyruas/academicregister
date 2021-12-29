@@ -1,21 +1,21 @@
-package com.academicregister.domain.permission;
+package com.academicregister.infraestucture.permission.create;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
 @ToString
-@Builder
-public class Permission {
+@EqualsAndHashCode
+@ApiModel(value = "PermissionCreateRequest")
+public class PermissionCreateRequest {
     private String role;
     private String resource;
 }

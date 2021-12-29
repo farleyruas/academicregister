@@ -1,26 +1,21 @@
-package com.academicregister.domain.rol;
+package com.academicregister.infraestucture.role.create;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
 @ToString
-@Builder
-@Entity
-public class Rol {
-    @Id
-    private String id;
+@EqualsAndHashCode
+@ApiModel(value = "RoleCreateRequest")
+public class RoleCreateRequest {
+
     private String name;
 }

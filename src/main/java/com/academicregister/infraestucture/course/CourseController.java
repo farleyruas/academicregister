@@ -27,7 +27,7 @@ public class CourseController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/courses")
+    @GetMapping("/all-courses")
     public List<Course> getCourses(){
         var courses = service.getCourses();
         return courses;
@@ -41,11 +41,5 @@ public class CourseController {
         String courseCreatedId;
         courseCreatedId = service.createCourse(course);
         return new ResponseEntity<>(new CourseCreateResponse(courseCreatedId), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/course/{id}")
-    public Course getCourse(@PathVariable String id){
-        var course = service.getCourse(id);
-        return course;
     }
 }

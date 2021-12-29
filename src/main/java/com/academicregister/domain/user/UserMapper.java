@@ -10,6 +10,7 @@ public class UserMapper implements RowMapper<User> {
                 .id(rs.getString("id"))
                 .username(rs.getString("username"))
                 .password(rs.getString("password"))
+                .role(rs.getString("role"))
                 .build();
     }
 }

@@ -1,9 +1,10 @@
 package com.academicregister.application.security;
 
-import com.academicregister.domain.student.Student;
+import com.academicregister.domain.permission.IPermissionRepository;
+import com.academicregister.domain.permission.Permission;
+import com.academicregister.domain.resource.IResourceRepository;
 import com.academicregister.domain.user.IUserRepository;
 import com.academicregister.domain.user.User;
-import com.academicregister.shared.exception.student.StudentNotFoundException;
 import com.academicregister.shared.exception.user.NotValidLoginException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,9 +23,13 @@ import java.util.stream.Collectors;
 public class SecurityServiceImpl implements ISecurityService {
 
     private final IUserRepository userRepository;
+    private final IPermissionRepository permissionRepository;
+    private final IResourceRepository resourceRepository;
 
-    public SecurityServiceImpl(IUserRepository userRepository) {
+    public SecurityServiceImpl(IUserRepository userRepository, IPermissionRepository permissionRepository, IResourceRepository resourceRepository) {
         this.userRepository = userRepository;
+        this.permissionRepository = permissionRepository;
+        this.resourceRepository = resourceRepository;
     }
 
     @Override
@@ -49,9 +54,14 @@ public class SecurityServiceImpl implements ISecurityService {
     }
 
     @Override
-    public String encryptText(String text) throws NoSuchAlgorithmException {
+    public String encryptText(String text) {
         var builder = new StringBuilder();
-        var m = MessageDigest.getInstance("MD5");
+        MessageDigest m = null;
+        try {
+            m = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         m.update(text.getBytes());
         byte[] bytes = m.digest();
 
@@ -59,10 +69,6 @@ public class SecurityServiceImpl implements ISecurityService {
             builder.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
         }
         var encryptedText = builder.toString();
-
-        System.out.println("Plain-text password: " + text);
-        System.out.println("Encrypted password using MD5: " + encryptedText);
-
         return encryptedText;
     }
 
@@ -73,5 +79,20 @@ public class SecurityServiceImpl implements ISecurityService {
             throw new NotValidLoginException();
         });
         return true;
+    }
+
+    @Override
+    public Boolean isAuthorized(String uri, String username) {
+        var user = userRepository.findByUsername(username);
+        var resource = resourceRepository.findByUri(uri);
+        var permissions = permissionRepository.findByRole(user.getRole());
+        if (null != resource && null != permissions && !permissions.isEmpty()) {
+            for(Permission permission : permissions) {
+                if (resource.getId().equals(permission.getResource())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

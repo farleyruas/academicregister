@@ -1,4 +1,4 @@
-package com.academicregister.domain.user;
+package com.academicregister.domain.rol;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +16,11 @@ import javax.persistence.Id;
 @Setter
 @Getter
 @EqualsAndHashCode
-@Builder
 @ToString
+@Builder
 @Entity
-public class User {
+public class Role {
     @Id
     private String id;
-    private String username;
-    private String password;
-    private String role;
+    private String name;
 }

@@ -4,4 +4,5 @@ import com.academicregister.domain.user.User;
 
 public interface IUserService {
     String createUser(User user);
+    void updateRolUser(User user);
 }

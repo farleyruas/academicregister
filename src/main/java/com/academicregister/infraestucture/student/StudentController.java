@@ -27,13 +27,13 @@ public class StudentController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/students")
+    @GetMapping("/all-students")
     public List<Student> getStudents(){
         var students = service.getStudents();
         return students;
     }
 
-    @PostMapping("/students")
+    @PostMapping("/student")
     public ResponseEntity<StudentCreateResponse> createStudent(
             @ApiParam(value = "Student to Create", required = true)
             @RequestBody StudentCreateRequest studentCreateRequest) {
