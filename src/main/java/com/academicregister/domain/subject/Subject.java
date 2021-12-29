@@ -1,6 +1,7 @@
 package com.academicregister.domain.subject;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Builder
 @Entity
 public class Subject {
     private @Id String id;

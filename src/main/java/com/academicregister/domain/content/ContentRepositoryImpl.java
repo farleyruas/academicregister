@@ -4,8 +4,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Repository
 public class ContentRepositoryImpl implements IContentRepository{
 
@@ -17,14 +15,17 @@ public class ContentRepositoryImpl implements IContentRepository{
 
     @Transactional
     public void save(Content content) {
-        template.update("INSERT INTO CONTENTS VALUES (?, ?)",
-                content.getCourseId(), content.getSubjectId());
+        template.update("INSERT INTO CONTENTS VALUES (?, ?, ?)",
+                content.getCourseId(), content.getSubjectId(), content.getId());
     }
 
     @Override
-    public List<Content> getContentsByCourse(String courseId) {
-        String query = "SELECT * FROM CONTENTS WHERE COURSE = ?";
-        var result = template.query(query, new ContentMapper(), courseId);
-        return result;
+    public Content findByCourseAndSubject(String courseId, String subjectId) {
+        String query = "SELECT * FROM CONTENTS WHERE COURSE = ? AND SUBJECT = ?";
+        var result = template.query(query, new ContentMapper(), courseId, subjectId);
+        if (!result.isEmpty()) {
+            result.get(0);
+        }
+        return null;
     }
 }

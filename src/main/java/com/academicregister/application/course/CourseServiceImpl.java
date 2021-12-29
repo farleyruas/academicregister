@@ -4,53 +4,42 @@ import com.academicregister.domain.course.Course;
 import com.academicregister.domain.course.ICourseRepository;
 import com.academicregister.shared.exception.course.CourseAlreadyExistsException;
 import com.academicregister.shared.exception.course.CourseNotFoundException;
+import io.vavr.control.Option;
+import io.vavr.control.Try;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class CourseServiceImpl implements ICourseService{
 
-    private final ICourseRepository repository;
+    private final ICourseRepository courseRepository;
 
-    CourseServiceImpl(ICourseRepository repository){ this.repository = repository; }
+    CourseServiceImpl(ICourseRepository repository){ this.courseRepository = repository; }
 
     @Override
     public List<Course> getCourses() {
-        var courses = repository.findAll();
+        var courses = courseRepository.findAll();
         return courses;
     }
 
     @Override
     public String createCourse(Course course) {
-        var optionalCourse = repository.findById(course.getId());
-        if (optionalCourse.isPresent()) {
-            throw new CourseAlreadyExistsException(course.getId());
-        }
-        repository.save(course);
+
+        Option<Course> opCourse = Option.of(courseRepository.findById(course.getId()));
+        opCourse.exists( rs -> {
+           throw new CourseAlreadyExistsException(course.getId());
+        });
+
+        courseRepository.save(course);
         return course.getId();
     }
 
     @Override
-    public void updateCourse(Course course){
-        var optionalCourse = repository.findById(course.getId());
-        if (!optionalCourse.isPresent()) {
-            throw new CourseNotFoundException(course.getId());
-        }
-        repository.deleteById(course.getId());
-        repository.save(course);
-    }
-
-    @Override
     public Course getCourse(String id) {
-        var optionalCourse = repository.findById(id);
-        if (!optionalCourse.isPresent()) {
-            throw new CourseNotFoundException(id);
-        }
-        return optionalCourse.get();
-    }
 
-    @Override
-    public void deleteCourse(String id) {
-        repository.deleteById(id);
+        Try<Course> rsCourse = Try.of(() -> courseRepository.findById(id));
+        return rsCourse.getOrElseThrow(throwable -> {
+            throw new CourseNotFoundException(id);
+        });
     }
 }

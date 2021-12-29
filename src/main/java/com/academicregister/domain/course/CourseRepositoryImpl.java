@@ -1,11 +1,8 @@
 package com.academicregister.domain.course;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class CourseRepositoryImpl implements ICourseRepository{
@@ -28,17 +25,9 @@ public class CourseRepositoryImpl implements ICourseRepository{
     }
 
     @Override
-    public Optional<Course> findById(String id) {
+    public Course findById(String id) {
         String query = "SELECT * FROM COURSES WHERE ID = ?";
         var result = template.query(query, new CourseMapper(), id);
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(result.get(0));
-    }
-
-    @Override
-    public void deleteById(String id) {
-        template.update("DELETE FROM COURSES WHERE ID = ?", id);
+        return result.get(0);
     }
 }
