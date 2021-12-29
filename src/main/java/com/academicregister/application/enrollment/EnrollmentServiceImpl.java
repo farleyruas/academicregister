@@ -13,6 +13,7 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,37 +31,45 @@ public class EnrollmentServiceImpl implements IEnrollmentService{
     }
 
     @Override
-    public List<Enrollment> getEnrollmentsByStudent() {
+    public List<Course> getEnrollmentsByStudent(String studentId) {
+        Try<Student> rsStudent = Try.of(() -> studentRepository.findById(studentId));
+        rsStudent.getOrElseThrow(throwable -> {
+            throw new StudentNotFoundException(studentId);
+        });
+        List<Course> courseList = new ArrayList<Course>();
+        enrollmentRepository.findByStudent(studentId).stream().forEach(e -> courseList.add(courseRepository.findById(e.getCourse())));
+        return courseList;
+    }
+
+    @Override
+    public List<Enrollment> getEnrollmentsByCourse(String course) {
         return null;
     }
 
     @Override
-    public List<Enrollment> getEnrollmentsByCourse() {
-        return null;
-    }
+    public void createEnrollment(Enrollment enrollment) {
 
-    @Override
-    public Enrollment createEnrollment(Enrollment enrollment) {
+        Try<Student> rsStudent = Try.of(() -> studentRepository.findById(enrollment.getStudent()));
+        rsStudent.getOrElseThrow(throwable -> {
+            throw new StudentNotFoundException(enrollment.getStudent());
+        });
+
+        Try<Course> rsCourse = Try.of(() -> courseRepository.findByName(enrollment.getCourse()));
+        rsCourse.getOrElseThrow(throwable -> {
+            throw new CourseNotFoundException(enrollment.getCourse());
+        });
 
         Option<Enrollment> opEnrollment = Option.of(enrollmentRepository.findByCourseAndStudent(
-                enrollment.getCourseId(), enrollment.getStudentId()));
+                rsCourse.get().getId(), rsStudent.get().getId()));
 
         opEnrollment.exists( rs -> {
-            throw new EnrollmentAlreadyExistsException(enrollment.getCourseId(), enrollment.getStudentId());
+            throw new EnrollmentAlreadyExistsException(enrollment.getCourse(), enrollment.getStudent());
         });
 
-        Try<Student> rsStudent = Try.of(() -> studentRepository.findById(enrollment.getStudentId()));
-        rsStudent.getOrElseThrow(throwable -> {
-            throw new StudentNotFoundException(enrollment.getStudentId());
-        });
-
-        Try<Course> rsCourse = Try.of(() -> courseRepository.findById(enrollment.getCourseId()));
-        rsCourse.getOrElseThrow(throwable -> {
-            throw new CourseNotFoundException(enrollment.getCourseId());
-        });
-
-        enrollmentRepository.save(enrollment);
-        return enrollment;
+        enrollmentRepository.save(Enrollment.builder()
+                .course(rsCourse.get().getId())
+                .student(rsStudent.get().getId())
+                .build());
     }
 
 

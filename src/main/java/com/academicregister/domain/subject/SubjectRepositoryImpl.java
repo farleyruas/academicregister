@@ -22,9 +22,15 @@ public class SubjectRepositoryImpl implements ISubjectRepository {
     public Subject findByTitle(String title) {
         String query = "SELECT * FROM SUBJECTS WHERE TITLE = ?";
         var result = template.query(query, new SubjectMapper(), title);
-        if (!result.isEmpty()) {
-            result.get(0);
-        }
-        return null;
+        return result.get(0);
+
+    }
+
+    @Override
+    public Subject findById(String id) {
+        String query = "SELECT * FROM SUBJECTS WHERE ID = ?";
+        var result = template.query(query, new SubjectMapper(), id);
+        return result.get(0);
+
     }
 }

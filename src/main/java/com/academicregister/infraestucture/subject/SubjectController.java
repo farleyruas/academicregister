@@ -34,10 +34,10 @@ public class SubjectController {
     public ResponseEntity<SubjectCreateResponse> createSubject(
             @ApiParam(value = "Subject to create", required = true)
             @RequestBody SubjectCreateRequest request) {
-        var id = UUID.randomUUID().toString();
-        Subject subject = new Subject();
-        subject.setId(id);
-        subject.setTitle(request.getTitle());
+        var subject = Subject.builder()
+                .id(UUID.randomUUID().toString())
+                .title(request.getTitle())
+                .build();
         var subjectCreatedId = subjectService.createSubject(subject).getId();
         return new ResponseEntity<>(new SubjectCreateResponse(subjectCreatedId), HttpStatus.CREATED);
     }

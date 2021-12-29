@@ -25,7 +25,7 @@ public class CourseServiceImpl implements ICourseService{
     @Override
     public String createCourse(Course course) {
 
-        Option<Course> opCourse = Option.of(courseRepository.findById(course.getId()));
+        Option<Course> opCourse = Option.of(courseRepository.findByName(course.getName()));
         opCourse.exists( rs -> {
            throw new CourseAlreadyExistsException(course.getId());
         });
@@ -37,7 +37,7 @@ public class CourseServiceImpl implements ICourseService{
     @Override
     public Course getCourse(String id) {
 
-        Try<Course> rsCourse = Try.of(() -> courseRepository.findById(id));
+        Try<Course> rsCourse = Try.of(() -> courseRepository.findByName(id));
         return rsCourse.getOrElseThrow(throwable -> {
             throw new CourseNotFoundException(id);
         });

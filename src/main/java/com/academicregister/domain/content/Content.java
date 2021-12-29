@@ -11,9 +11,8 @@ import javax.persistence.Id;
 @Setter
 @EqualsAndHashCode
 @ToString
-@Entity
+@Builder
 public class Content {
-    private @Id String id;
-    private String courseId;
-    private String subjectId;
+    private String course;
+    private String subject;
 }

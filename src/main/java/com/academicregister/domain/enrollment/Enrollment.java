@@ -11,9 +11,8 @@ import javax.persistence.Id;
 @Getter
 @EqualsAndHashCode
 @ToString
-@Entity
+@Builder
 public class Enrollment {
-    private @Id String id;
-    private String studentId;
-    private String courseId;
+    private String student;
+    private String course;
 }

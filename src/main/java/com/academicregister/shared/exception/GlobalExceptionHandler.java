@@ -5,6 +5,7 @@ import com.academicregister.shared.exception.course.CourseNotFoundException;
 import com.academicregister.shared.exception.enrollment.EnrollmentAlreadyExistsException;
 import com.academicregister.shared.exception.permission.PermissionAlreadyExistsException;
 import com.academicregister.shared.exception.resource.ResourceAlreadyExistsException;
+import com.academicregister.shared.exception.resource.ResourceNotFoundException;
 import com.academicregister.shared.exception.role.RoleAlreadyExistsException;
 import com.academicregister.shared.exception.role.RoleNotFoundException;
 import com.academicregister.shared.exception.student.StudentIdAlreadyExistsException;
@@ -47,7 +48,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             CourseNotFoundException.class,
             UserNotFoundException.class,
             NotValidLoginException.class,
-            RoleNotFoundException.class})
+            RoleNotFoundException.class,
+            ResourceNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleNotFound(Exception ex, WebRequest request) {
 
         var errors = ErrorResponse.builder()

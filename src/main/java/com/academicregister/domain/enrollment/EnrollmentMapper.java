@@ -7,9 +7,8 @@ import java.sql.SQLException;
 public class EnrollmentMapper implements RowMapper<Enrollment> {
     public Enrollment mapRow(ResultSet rs, int rowNum) throws SQLException {
         Enrollment enrollment = new Enrollment();
-        enrollment.setId(rs.getString("id"));
-        enrollment.setCourseId(rs.getString("course"));
-        enrollment.setStudentId(rs.getString("student"));
+        enrollment.setCourse(rs.getString("course"));
+        enrollment.setStudent(rs.getString("student"));
         return enrollment;
     }
 }

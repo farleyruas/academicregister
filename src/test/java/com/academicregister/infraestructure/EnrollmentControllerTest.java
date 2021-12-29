@@ -34,14 +34,14 @@ public class EnrollmentControllerTest {
     @Test
     public void Create_Enrollment_Test() throws Exception {
         var request = new EnrollmentCreateRequest();
-        request.setCourseId("math_001");
-        request.setStudentId("1035862325");
+        request.setCourse("Math");
+        request.setStudent("1035862325");
 
         var enrollment = new Enrollment();
-        enrollment.setCourseId(request.getCourseId());
-        enrollment.setStudentId(request.getStudentId());
+        enrollment.setCourse(request.getCourse());
+        enrollment.setStudent(request.getStudent());
 
-        when(enrollmentService.createEnrollment(any(Enrollment.class))).thenReturn(enrollment);
+        //when(enrollmentService.createEnrollment(any(Enrollment.class))).thenReturn(enrollment);
 
         var result = mockMvc.perform(post("/enrollments")
                 .content(mapper.writeValueAsString(request))

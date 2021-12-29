@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class CourseController {
@@ -38,8 +39,8 @@ public class CourseController {
             @ApiParam(value = "Course to Create", required = true)
             @RequestBody CourseCreateRequest courseCreateRequest) {
         var course = modelMapper.map(courseCreateRequest, Course.class);
-        String courseCreatedId;
-        courseCreatedId = service.createCourse(course);
+        course.setId(UUID.randomUUID().toString());
+        var courseCreatedId= service.createCourse(course);
         return new ResponseEntity<>(new CourseCreateResponse(courseCreatedId), HttpStatus.CREATED);
     }
 }

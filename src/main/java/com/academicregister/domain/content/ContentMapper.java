@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 public class ContentMapper implements RowMapper<Content> {
     public Content mapRow(ResultSet rs, int rowNum) throws SQLException {
-        var content = new Content();
-        content.setCourseId(rs.getString("course"));
-        content.setSubjectId(rs.getString("subject"));
-        return content;
+        return Content.builder()
+                .course(rs.getString("course"))
+                .subject(rs.getString("subject"))
+                .build();
     }
 }

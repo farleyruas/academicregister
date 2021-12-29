@@ -10,7 +10,6 @@ import lombok.Getter;
 @ApiModel(value = "CourseCreateRequest")
 public class CourseCreateRequest {
     @ApiModelProperty(value = "Student identifier", required = true)
-    private String id;
     private String name;
     private String description;
 }

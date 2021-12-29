@@ -11,6 +11,6 @@ import lombok.*;
 @Builder
 @ApiModel(value = "Content Create Request")
 public class ContentCreateRequest {
-    private String courseId;
-    private String subjectId;
+    private String course;
+    private String subject;
 }

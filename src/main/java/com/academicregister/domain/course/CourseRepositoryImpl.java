@@ -25,9 +25,23 @@ public class CourseRepositoryImpl implements ICourseRepository{
     }
 
     @Override
+    public Course findByName(String name) {
+        String query = "SELECT * FROM COURSES WHERE NAME = ?";
+        var result = template.query(query, new CourseMapper(), name);
+        if (!result.isEmpty()) {
+            return result.get(0);
+        }
+        return null;
+
+    }
+
+    @Override
     public Course findById(String id) {
         String query = "SELECT * FROM COURSES WHERE ID = ?";
         var result = template.query(query, new CourseMapper(), id);
-        return result.get(0);
+        if (!result.isEmpty()) {
+            return result.get(0);
+        }
+        return null;
     }
 }

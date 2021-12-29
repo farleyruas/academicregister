@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,9 +34,16 @@ public class ContentController {
     public ResponseEntity<ContentCreateResponse> createContent(
             @ApiParam(value = "Content to create", required = true)
             @RequestBody ContentCreateRequest request) {
-        var content = modelMapper.map(request, Content.class);
-        content.setId(UUID.randomUUID().toString());
-        var contentCreatedId = contentService.createContent(content).getId();
+        var contentCreatedId = contentService.createContent(request.getCourse(), request.getSubject()).getCourse();
         return new ResponseEntity<>(new ContentCreateResponse(contentCreatedId), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/content")
+    public ResponseEntity<List<String>> contentByCourse(@RequestParam("course") String course){
+        var subjectList = contentService.findSubjectsByCourse(course);
+        List<String> response = new ArrayList<String>();
+        subjectList.stream().forEach(s -> response.add(s.getTitle()));
+       return new ResponseEntity<List<String>>(response, HttpStatus.OK);
+
     }
 }

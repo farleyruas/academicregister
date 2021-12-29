@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -18,22 +19,28 @@ public class EnrollmentRepositoryImpl implements IEnrollmentRepository{
     @Transactional
     @Override
     public void save(Enrollment enrollment) {
-        template.update("INSERT INTO ENROLLMENTS VALUES (?, ?, ?)",
-                enrollment.getId(), enrollment.getStudentId(), enrollment.getCourseId());
+        template.update("INSERT INTO ENROLLMENTS VALUES (?, ?)",
+                enrollment.getStudent(), enrollment.getCourse());
     }
 
     @Override
     public List<Enrollment> findByStudent(String studentId) {
         String query = "SELECT * FROM ENROLLMENTS WHERE STUDENT = ?";
         var result = template.query(query, new EnrollmentMapper(), studentId);
-        return result;
+        if (!result.isEmpty()) {
+            return result;
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public List<Enrollment> findByCourse(String courseId) {
         String query = "SELECT * FROM ENROLLMENTS WHERE COURSE = ?";
         var result = template.query(query, new EnrollmentMapper(), courseId);
-        return result;
+        if (!result.isEmpty()) {
+            return result;
+        }
+        return Collections.emptyList();
     }
 
     @Override

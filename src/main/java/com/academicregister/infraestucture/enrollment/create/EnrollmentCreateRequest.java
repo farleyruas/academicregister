@@ -11,6 +11,6 @@ import lombok.*;
 @Builder
 @ApiModel(value = "EnrollmentCreateRequest")
 public class EnrollmentCreateRequest {
-    private String studentId;
-    private String courseId;
+    private String student;
+    private String course;
 }
